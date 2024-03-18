@@ -55,24 +55,24 @@ class Bezier_dac(): # devided and conquer
         
 
 class Bezier_bf(): # brute force
-    def bezier_curve_brute_force(self, points, iteration):
+    def coordinates(self, points, iteration):
         x=[]
         y=[]
-        if iteration==1:
+        if iteration<=0:
             x,y=zip(*points)
         else:
-            for t in range (iteration):
-                newx = (1 - t / (iteration - 1))**2 * points[0][0] + 2 * (1 - t / (iteration - 1)) * t / (iteration - 1) * points[1][0] + (t / (iteration - 1))**2 * points[2][0]
-                newy = (1 - t / (iteration - 1))**2 * points[0][1] + 2 * (1 - t / (iteration - 1)) * t / (iteration - 1) * points[1][1] + (t / (iteration - 1))**2 * points[2][1]
+            for i in range (iteration):
+                newx = (1 - i / (iteration - 1))**2 * points[0][0] + 2 * (1 - i / (iteration - 1)) * i / (iteration - 1) * points[1][0] + (i / (iteration - 1))**2 * points[2][0]
+                newy = (1 - i / (iteration - 1))**2 * points[0][1] + 2 * (1 - i / (iteration - 1)) * i / (iteration - 1) * points[1][1] + (i / (iteration - 1))**2 * points[2][1]
                 x.append(newx);y.append(newy)
         return x,y
 
-    def plot_bezier_curve_brute_force(self, points, iteration):
+    def draw_coordinates(self, points, iteration):
         start=time.time()
-        iteration=(2*iteration)+1 #Diubah supaya jumlah titik hasil iterasi sesuai dengan divide and conquer
-        x,y = self.bezier_curve_brute_force(points, iteration)
-        plt.plot(x, y, label='Brute Force')
-        plt.scatter(*zip(*points), color='red', label='Control Points')
+        x,y = self.coordinates(points, iteration)
+        plt.plot(x, y, label='Curve')
+        plt.scatter(*zip(*points), color='red', label='Control')
+        plt.plot(*zip(*points), color='green')
         plt.legend()
         plt.title(f'Bezier Curve - Brute Force ({time.time()-start} detik)')
         plt.show()
@@ -84,11 +84,31 @@ class Bezier_bf(): # brute force
 if __name__ =='__main__':
     iteration=int(input("Masukkan jumlah iterasi: "))
     # Example usage with three control points
-    control_points = [(-20, 2), (2, 5), (5, 0)]
-
-    # Divided and Conquer
-    Bezier_dac.draw(control_points, iteration)
+    # control_points = [(-20, 2), (2, 5), (5, 0)]
+    control_points=[]
+    for i in range(3):
+        control=input("Masukkan koordinat titk kontrol <x,y> : ")
+        try:
+            x, y = map(float, control.split(','))#Format in put "x, y"
+            tuple_control = (x, y)
+        except ValueError:
+            print("Input invalid. Masukkan input dalam format 'x, y'")
+        control_points.append(tuple_control)
+    print("Pilih algoritma")
+    print("1. Divide and Conquer")
+    print("2. Brute Force")
+    try:
+        algo = int(input())
+        if algo == 1:
+            Bezier_dac.draw(control_points, iteration)
+        elif algo == 2:
+            a=Bezier_bf()
+            a.draw_coordinates(control_points, iteration)
+        else:
+            raise ValueError("Input harus 1 atau 2")
+    except ValueError as error:
+        print(error)
 
     # Brute force
     # a=Bezier_bf()
-    # a.plot_bezier_curve_brute_force(control_points, iteration)
+    # a.draw_coordinates(control_points, iteration)
