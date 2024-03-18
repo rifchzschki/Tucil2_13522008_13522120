@@ -77,7 +77,7 @@ class Bezier_dac(): # devided and conquer
         
 
 class Bezier_bf(): # brute force
-    def coordinates(self, points, iteration):
+    def coordinates(self, points, iteration):# Brute force akan membagi kurva menjadi jumlah iterasi, lalu menghitung nilai titik di tiap bagian, lalu menghubungkannya
         x=[]
         y=[]
         if iteration<=1:
@@ -91,12 +91,19 @@ class Bezier_bf(): # brute force
 
     def draw_coordinates(self, points, iteration):
         start=time.time()
+        a=iteration
+        for i in range (a): #supaya jumlah titik per iterasi sama dengan DnC
+            if i==0:
+                iteration=3
+            else:
+                iteration=iteration*2 -1
         x,y = self.coordinates(points, iteration)
-        plt.plot(x, y, label='Curve')
+        end=time.time()-start
         plt.scatter(*zip(*points), color='red', label='Control')
         plt.plot(*zip(*points), color='green')
+        plt.plot(x, y, label='Curve')
         plt.legend()
-        plt.title(f'Bezier Curve - Brute Force ({time.time()-start} detik)')
+        plt.title(f'Bezier Curve - Brute Force ({end} detik)')
         plt.show()
     
 
