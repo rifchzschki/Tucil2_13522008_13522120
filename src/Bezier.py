@@ -58,12 +58,12 @@ class Bezier_bf(): # brute force
     def coordinates(self, points, iteration):
         x=[]
         y=[]
-        if iteration<=0:
+        if iteration<=1:
             x,y=zip(*points)
         else:
             for i in range (iteration):
-                newx = (1 - i / (iteration - 1))**2 * points[0][0] + 2 * (1 - i / (iteration - 1)) * i / (iteration - 1) * points[1][0] + (i / (iteration - 1))**2 * points[2][0]
-                newy = (1 - i / (iteration - 1))**2 * points[0][1] + 2 * (1 - i / (iteration - 1)) * i / (iteration - 1) * points[1][1] + (i / (iteration - 1))**2 * points[2][1]
+                newx = (1 -( i / (iteration - 1)))**2 * points[0][0] + 2 * (1 -( i / (iteration - 1))) *( i / (iteration - 1)) * points[1][0] + (i / (iteration - 1))**2 * points[2][0]
+                newy = (1 -( i / (iteration - 1)))**2 * points[0][1] + 2 * (1 -( i / (iteration - 1))) *( i / (iteration - 1)) * points[1][1] + (i / (iteration - 1))**2 * points[2][1]
                 x.append(newx);y.append(newy)
         return x,y
 
