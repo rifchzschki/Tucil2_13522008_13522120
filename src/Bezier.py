@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import time
+import os
 __all__ = ["Bezier_dac", "Bezier_bf"]
 import matplotlib.pyplot as plt
 
@@ -44,14 +45,10 @@ class Bezier_dac(): # devided and conquer
         county = (ymax-ymin)*0.01
         if(len(x)>1000):
             n = 10**(Bezier_dac.count_digit(len(x))-1)
-            print(len(x))
-            print(2)
         elif(len(x)>100):
             n=5
-            print(3)
         else:
             n=1
-            print(4)
         for i in range(len(x)):
             if(i%n==0):
                 countx +=0.01
@@ -63,9 +60,8 @@ class Bezier_dac(): # devided and conquer
                 )
                 plt.pause(0.00001)
                 in_end = i
-        print(in_end)
+        # print(in_end)
         plt.plot(x[in_end+1:-1],y[in_end+1:-1],'r-')
-
         plt.title(f'Bezier Curve - Divided and Conquer ({end} detik)')
         plt.plot(
             [x[0] for x in control_points],
@@ -108,33 +104,46 @@ class Bezier_bf(): # brute force
 
 
 if __name__ =='__main__':
-    iteration=int(input("Masukkan jumlah iterasi: "))
-    # Example usage with three control points
-    # control_points = [(-20, 2), (2, 5), (5, 0)]
-    control_points=[]
-    for i in range(3):
-        control=input("Masukkan koordinat titk kontrol <x,y> : ")
+    iter_in = True
+    while(iter_in):
+        if os.name == 'nt':  # Jika sistem operasi adalah Windows
+            os.system('cls')
+        else:  # Untuk sistem operasi lainnya (Unix/Linux/MacOS)
+            os.system('clear')
+        iteration=int(input("Masukkan jumlah iterasi: "))
+        iter_in =  False
+        # Example usage with three control points
+        # control_points = [(-20, 2), (2, 5), (5, 0)]
+        control_points=[]
+        for i in range(3):
+            control=input("Masukkan koordinat titk kontrol <x,y> : ")
+            try:
+                x, y = map(float, control.split(','))#Format in put "x, y"
+                tuple_control = (x, y)
+            except ValueError:
+                print("Input invalid. Masukkan input dalam format 'x, y'")
+            control_points.append(tuple_control)
+        print("Pilih algoritma")
+        print("1. Divide and Conquer")
+        print("2. Brute Force")
         try:
-            x, y = map(float, control.split(','))#Format in put "x, y"
-            tuple_control = (x, y)
-        except ValueError:
-            print("Input invalid. Masukkan input dalam format 'x, y'")
-        control_points.append(tuple_control)
-    print("Pilih algoritma")
-    print("1. Divide and Conquer")
-    print("2. Brute Force")
-    try:
-        algo = int(input())
-        if algo == 1:
-            Bezier_dac.draw(control_points, iteration)
-        elif algo == 2:
-            a=Bezier_bf()
-            a.draw_coordinates(control_points, iteration)
+            algo = int(input())
+            if algo == 1:
+                Bezier_dac.draw(control_points, iteration)
+            elif algo == 2:
+                a=Bezier_bf()
+                a.draw_coordinates(control_points, iteration)
+            else:
+                raise ValueError("Input harus 1 atau 2")
+        except ValueError as error:
+            print(error)
+        plt.close()
+        is_iter = input("Lagi ?(y/n)")
+        if(is_iter == 'y'):
+            iter_in = True
         else:
-            raise ValueError("Input harus 1 atau 2")
-    except ValueError as error:
-        print(error)
+            print("Bye-bye...\nsampai jumpa nanti")
 
-    # Brute force
-    # a=Bezier_bf()
-    # a.draw_coordinates(control_points, iteration)
+        # Brute force
+        # a=Bezier_bf()
+        # a.draw_coordinates(control_points, iteration)
