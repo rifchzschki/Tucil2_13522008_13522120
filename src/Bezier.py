@@ -16,10 +16,22 @@ class Bezier_dac(): # devided and conquer
             r0 = Bezier_dac.get_Q(q0,q1)
             curve1 = Bezier_dac.curve(p0, q0, r0, n-1)
             curve2 = Bezier_dac.curve(r0, q1, p2, n-1)
+            # line = plt.plot([p0[0], p2[0]], [p0[1], p2[1]], 'ro-')
+            # plt.pause(1)  # Jeda untuk animasi
+            # line[0].remove()
             return curve1 + curve2[1:]
         
+    def count_digit(n):
+        count = 0
+        while(n//10!=0):
+            n//=10
+            count+=1
+        return count
+        
     def draw(control_points, iteration):
+        start = time.time()
         curve = Bezier_dac.curve(*control_points, iteration)
+        end = time.time() - start 
         x = [x[0] for x in curve]
         y = [y[1] for y in curve]
         # print(x)
@@ -27,20 +39,34 @@ class Bezier_dac(): # devided and conquer
         ymax = max([y[1] for y in control_points])
         xmin = min([x[0] for x in control_points])
         ymin = min([y[1] for y in control_points])
-        plt.figure()
+        # plt.figure()
         countx = (xmax-xmin)*0.01
         county = (ymax-ymin)*0.01
+        if(len(x)>1000):
+            n = 10**(Bezier_dac.count_digit(len(x))-1)
+            print(len(x))
+            print(2)
+        elif(len(x)>100):
+            n=5
+            print(3)
+        else:
+            n=1
+            print(4)
         for i in range(len(x)):
-            if(i%10==0):
+            if(i%n==0):
                 countx +=0.01
                 county +=0.01
                 plt.xlim(xmin-countx,xmax+countx)
                 plt.ylim(ymin-county,ymax+county)
                 plt.plot(
-                    x[:i],y[:i],'r-'
+                    x[:i+1],y[:i+1],'r-'
                 )
                 plt.pause(0.00001)
-        
+                in_end = i
+        print(in_end)
+        plt.plot(x[in_end+1:-1],y[in_end+1:-1],'r-')
+
+        plt.title(f'Bezier Curve - Divided and Conquer ({end} detik)')
         plt.plot(
             [x[0] for x in control_points],
             [y[1] for y in control_points],
