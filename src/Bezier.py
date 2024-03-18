@@ -29,9 +29,14 @@ class Bezier_dac(): # devided and conquer
             count+=1
         return count
         
-    def draw(control_points, iteration):
+    def draw(n, control_points, iteration):
+        curve = []
         start = time.time()
-        curve = Bezier_dac.curve(*control_points, iteration)
+        for i in range(n-2):
+            print(i)
+            curve+=(Bezier_dac.curve(*control_points[i:i+3], iteration))
+
+        print(curve)   
         end = time.time() - start 
         x = [x[0] for x in curve]
         y = [y[1] for y in curve]
@@ -117,26 +122,30 @@ if __name__ =='__main__':
             os.system('cls')
         else:  # Untuk sistem operasi lainnya (Unix/Linux/MacOS)
             os.system('clear')
+        print("Mari buat Bezier curve terbaik anda!")
+        n = int(input("Masukkan jumlah control points: "))
         iteration=int(input("Masukkan jumlah iterasi: "))
         iter_in =  False
         # Example usage with three control points
         # control_points = [(-20, 2), (2, 5), (5, 0)]
         control_points=[]
-        for i in range(3):
+        i = 0
+        while(i<n):
             control=input("Masukkan koordinat titk kontrol <x,y> : ")
             try:
                 x, y = map(float, control.split(','))#Format in put "x, y"
                 tuple_control = (x, y)
+                control_points.append(tuple_control)
+                i+=1
             except ValueError:
                 print("Input invalid. Masukkan input dalam format 'x, y'")
-            control_points.append(tuple_control)
         print("Pilih algoritma")
         print("1. Divide and Conquer")
         print("2. Brute Force")
         try:
             algo = int(input())
             if algo == 1:
-                Bezier_dac.draw(control_points, iteration)
+                Bezier_dac.draw(n, control_points, iteration)
             elif algo == 2:
                 a=Bezier_bf()
                 a.draw_coordinates(control_points, iteration)
@@ -150,7 +159,3 @@ if __name__ =='__main__':
             iter_in = True
         else:
             print("Bye-bye...\nsampai jumpa nanti")
-
-        # Brute force
-        # a=Bezier_bf()
-        # a.draw_coordinates(control_points, iteration)
