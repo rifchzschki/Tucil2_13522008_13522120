@@ -139,21 +139,27 @@ if __name__ =='__main__':
                 i+=1
             except ValueError:
                 print("Input invalid. Masukkan input dalam format 'x, y'")
-        print("Pilih algoritma")
-        print("1. Divide and Conquer")
-        print("2. Brute Force")
-        try:
-            algo = int(input())
-            if algo == 1:
-                Bezier_dac.draw(n, control_points, iteration)
-            elif algo == 2:
-                a=Bezier_bf()
-                a.draw_coordinates(control_points, iteration)
-            else:
-                raise ValueError("Input harus 1 atau 2")
-        except ValueError as error:
-            print(error)
-        plt.close()
+        if n==3:
+            print("Pilih algoritma")
+            print("1. Divide and Conquer")
+            print("2. Brute Force")
+            try:
+                algo = int(input())
+                if algo == 1:
+                    Bezier_dac.draw(n, control_points, iteration)
+                elif algo == 2:
+                    a=Bezier_bf()
+                    a.draw_coordinates(control_points, iteration)
+                else:
+                    raise ValueError("Input harus 1 atau 2")
+            except ValueError as error:
+                print(error)
+            plt.close()
+        else:
+            print("Algoritma Brute Force tidak mendukung titik kontrol selain tiga.")
+            print("Program akan menggunakan algoritma Divide and Conquer.")
+            Bezier_dac.draw(n, control_points, iteration)
+            plt.close()
         is_iter = input("Lagi ?(y/n)")
         if(is_iter == 'y'):
             iter_in = True
