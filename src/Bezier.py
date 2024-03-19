@@ -96,18 +96,19 @@ class Bezier_bf(): # brute force
 
     def draw_coordinates(self, points, iteration):
         start=time.time()
-        a=iteration
-        for i in range (a): #supaya jumlah titik per iterasi sama dengan DnC
-            if i==0:
-                iteration=3
-            else:
-                iteration=iteration*2 -1
+        # a=iteration
+        # for i in range (a): #supaya jumlah titik per iterasi sama dengan DnC
+        #     if i==0:
+        #         iteration=3
+        #     else:
+        #         iteration=iteration*2 -1
+        iteration=(2**iteration)+1#supaya jumlah titik per iterasi same dengan DnC
         x,y = self.coordinates(points, iteration)
         end=time.time()-start
-        plt.scatter(*zip(*points), color='red', label='Control')
-        plt.plot(*zip(*points), color='green')
-        plt.plot(x, y, label='Curve')
-        plt.legend()
+        print(list(zip(x,y)))
+        plt.scatter(*zip(*points), color='red')
+        plt.plot(*zip(*points), color='green')  
+        plt.plot(x, y)
         plt.title(f'Bezier Curve - Brute Force ({end} detik)')
         plt.show()
     
