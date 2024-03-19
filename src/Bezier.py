@@ -89,19 +89,20 @@ class Bezier_bf(): # brute force
             x,y=zip(*points)
         else:
             for i in range (iteration):
-                newx = (1 -( i / (iteration - 1)))**2 * points[0][0] + 2 * (1 -( i / (iteration - 1))) *( i / (iteration - 1)) * points[1][0] + (i / (iteration - 1))**2 * points[2][0]
-                newy = (1 -( i / (iteration - 1)))**2 * points[0][1] + 2 * (1 -( i / (iteration - 1))) *( i / (iteration - 1)) * points[1][1] + (i / (iteration - 1))**2 * points[2][1]
+                t= i / (iteration-1)
+                newx = (1 - t)**2 * points[0][0] + 2 * (1 - t) * t * points[1][0] + (t)**2 * points[2][0]
+                newy = (1 - t)**2 * points[0][1] + 2 * (1 - t) * t * points[1][1] + (t)**2 * points[2][1]
                 x.append(newx);y.append(newy)
         return x,y
 
     def draw_coordinates(self, points, iteration):
         start=time.time()
-        # a=iteration
-        # for i in range (a): #supaya jumlah titik per iterasi sama dengan DnC
-        #     if i==0:
-        #         iteration=3
-        #     else:
-        #         iteration=iteration*2 -1
+            # a=iteration
+            # for i in range (a): #supaya jumlah titik per iterasi sama dengan DnC
+            #     if i==0:
+            #         iteration=3
+            #     else:
+            #         iteration=iteration*2 -1
         iteration=(2**iteration)+1#supaya jumlah titik per iterasi same dengan DnC
         x,y = self.coordinates(points, iteration)
         end=time.time()-start
