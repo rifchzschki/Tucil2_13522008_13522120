@@ -30,8 +30,8 @@ Projek ini bertujuan untuk memvisualisasikan kurva Bezier menggunakan algoritma 
 
 
 ## Screenshots
-![Example screenshot]('./img/Screenshot - 1.png')
-![Examaple screenshot]('./img/Screenshot - 2.png')
+![Example screenshot](./img/Screenshot%20-%201.png)
+![Examaple screenshot](./img/Screenshot%20-%202.png)
 <!-- If you have screenshots you'd like to share, include them here. -->
 
 
